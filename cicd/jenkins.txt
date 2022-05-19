@@ -1,0 +1,2 @@
+
+create config.json, see build-magic-init-toolbox

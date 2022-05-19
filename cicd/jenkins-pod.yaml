@@ -1,0 +1,21 @@
+spec:
+  containers:
+  - name: maven
+    image:  maven:3.8-openjdk-11
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+      - name: config-settings
+        mountPath: /root/.m2/settings.xml
+        subPath: settings.xml
+    - name: docker-config
+      mountPath: /.docker
+  volumes:
+  - name: config-settings
+    secret:
+      secretName: maven-settings-xml
+  - name: docker-config
+    secret:
+      secretName: docker-config-internal
+        

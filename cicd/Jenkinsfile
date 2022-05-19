@@ -1,0 +1,16 @@
+pipeline {
+  agent {
+    kubernetes {
+      yamlFile 'cicd/jenkins-pod.yaml'
+    }
+  }
+  stages {
+    stage('Build image') {
+      steps {
+        container('maven') {
+          sh 'mvn spring-boot:build-image'
+        }
+      }
+    }
+  }
+}

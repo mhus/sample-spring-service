@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: agent
+spec:
+ containers:
+   - name: box
+     image: dockercore/docker
+     command:
+     - cat
+     tty: true
+     volumeMounts:
+       - name: workspace-volume
+         mountPath: /home/jenkins/agent
+   - name: podman
+     image: quay.io/podman/stable
+     args: ["/usr/bin/podman","system","service","-t","0","--log-level=info", "unix:///var/run/docker.sock"]
+     tty: true
+     securityContext:
+      privileged: true
+     volumeMounts:
+       - name: workspace-volume
+         mountPath: /home/jenkins/agent
+       - name: docker-socket
+         mountPath: /var/run
+   - name: maven
+     image:  maven:3.8-openjdk-11
+     command:
+     - cat
+     tty: true
+     volumeMounts:
+       - name: workspace-volume
+         mountPath: /home/jenkins/agent
+   - name: buildpacks
+     image: mhus/buildpacks:0.26.0-0
+     command: ["/bin/bash","-c"]
+     args: ["cat"]
+     tty: true
+     volumeMounts:
+       - name: workspace-volume
+         mountPath: /home/jenkins/agent
+       - name: docker-socket
+         mountPath: /var/run
+ volumes:
+    - name: workspace-volume
+      emptyDir: {}
+    - name: docker-socket
+      emptyDir: {}

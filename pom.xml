@@ -53,9 +53,18 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <docker>
+					<!-- 
+                        <host>unix:///Users/mikehummel/.local/share/containers/podman/machine/podman-machine-default/podman.sock</host>
+					-->
+						<host>unix:///run/user/1000/podman/podman.sock</host>
+                        <bindHostToBuilder>true</bindHostToBuilder>
+                    </docker>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 

@@ -8,26 +8,17 @@ spec:
     command:
     - cat
     tty: true
-    volumeMounts:
-      - name: config-settings
-        mountPath: /root/.m2/settings.xml
-        subPath: settings.xml
     env:
     - name: CONTAINER_ENV_VAR
       value: maven
-  - name: kaniko
-    image: gcr.io/kaniko-project/executor:debug
+  - name: buildpacks
+    image: mhus/buildpacks:0.26.0-0
+    entrypoint:
+    - /bin/bash
     command:
     - cat
     tty: true
-    volumeMounts:
-    - name: docker-config
-      mountPath: /kaniko/.docker
-  volumes:
-  - name: config-settings
-    secret:
-      secretName: maven-settings-xml
-  - name: docker-config
-    secret:
-      secretName: docker-config-internal
+  - name: podman
+    image: quay.io/podman/stable
+    
         

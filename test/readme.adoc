@@ -1,0 +1,30 @@
+
+== Build
+
+=== 1. Create pod
+
+----
+kubectl create -f pod.yaml
+----
+
+=== 2. Give docker password
+
+----
+read docker_pass
+export docker_pass
+----
+
+=== 3. Build Script
+
+----
+./build.sh
+----
+
+== Test
+
+----
+docker run --rm -p 8080:8080 mhus/sample-spring-service:latest
+----
+
+Open in Browser `http://localhost:8080/hello`
+

@@ -18,5 +18,5 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo Pushing the Docker image...
+      - echo Pushing the Docker image $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/sample-spring-service:$IMAGE_TAG
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/sample-spring-service:$IMAGE_TAG

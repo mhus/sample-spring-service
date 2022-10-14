@@ -8,8 +8,15 @@ phases:
   pre_build:
     commands:
       - pip3 install awscli --upgrade --user
+      - aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com
 
   build:
     commands:
       - export CODEARTIFACT_TOKEN=`aws codeartifact get-authorization-token --domain ${CODEARTIFACT_DOMAIN} --query authorizationToken --output text`
-      - mvn -s settings.xml -B clean package deploy
+      - mvn -s settings.xml -B clean spring-boot:build-image
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/sample-spring-service:$IMAGE_TAG

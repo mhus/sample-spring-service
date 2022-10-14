@@ -20,4 +20,5 @@ phases:
       - export IMAGE_TAG=latest
       - echo Build completed on `date`
       - echo Pushing the Docker image $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/sample-spring-service:$IMAGE_TAG
+      - docker tag docker.io/library/sample-spring-service:1.0.0-SNAPSHOT $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/sample-spring-service:$IMAGE_TAG
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/sample-spring-service:$IMAGE_TAG
